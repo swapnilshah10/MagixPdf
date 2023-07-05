@@ -7,6 +7,7 @@ import Compress from "./components/Compress";
 import Eimage from "./components/Eimage";
 import Extext from "./components/Etext";
 import Navbar from "./components/Navbar";
+import DeletePages from "./components/DeletePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/Compress" element={<Compress />}></Route>
         <Route exact path="/ExtractImage" element={<Eimage />}></Route>
         <Route exact path="/ExtractText" element={<Extext />}></Route>
+        <Route exact path="/DeletePages" element={<DeletePages />}></Route>
       </Routes>
     </Router>
   );

@@ -4,14 +4,18 @@ import { useState } from "react";
 
 function Mergee() {
   let stylee = {
-    fontFamily: "Marck Script",
+    // fontFamily: "Marck Script",
     fontSize: 30,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    padding : 20,
-    margin : 20
-  }
+    padding: 20,
+    // margin: 20,
+    height : "100vh",
+    justifyContent: "center",
+    color: "#fff",
+    backgroundColor: "#000",
+  };
   const [file, setFile] = useState(false);
   let url = "http://127.0.0.1:8000/file/merge/";
   const [output, setOutput] = useState(false);

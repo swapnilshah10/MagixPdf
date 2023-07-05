@@ -1,36 +1,29 @@
 import React from "react";
 import { useState } from "react";
 // import Pdfview from "./Pdfview";
-import PDFPreview from "./Preview";
 
-function Mergee() {
+function DeletePage() {
   let stylee = {
     // fontFamily: "Marck Script",
     fontSize: 30,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    padding: 20,
+    padding: 40,
     // margin: 20,
-    height : "100vh",
+    height: "100vh",
     justifyContent: "center",
     color: "#fff",
     backgroundColor: "#000",
   };
   const [file, setFile] = useState(false);
-  let url = "http://127.0.0.1:8000/file/merge/";
+  let url = "http://127.0.0.1:8000/file/delete/";
   const [output, setOutput] = useState(false);
   const [res, setRes] = useState("");
-  const [err, setError] = useState("");
+  const [pagesToDelete, setPagesToDelete] = useState("");
 
-  var FileSaver = require("file-saver");
   let onChangeGetFilesSelected = (e) => {
     setFile(e.target.files);
-    console.log(e.target.files);
-  };
-
-  let savee = () => {
-    FileSaver.saveAs(res, "Merged.pdf");
   };
 
   var f = [];
@@ -39,18 +32,16 @@ function Mergee() {
     f.push(<h1>Sequence</h1>);
     for (let i = 0; i < file.length; i++) {
       f.push(
-        <div key={i} style = {{fontFamily: "Poppins"}}>
+        <>
           {i + 1}. {file[i].name}
           <br />
-        </div>
+        </>
       );
     }
     return f;
   };
 
   let uploadfiles = () => {
-    setError(false);
-    setRes(false);
     var formData = new FormData();
 
     for (let i = 0; i < file.length; i++) {
@@ -73,15 +64,12 @@ function Mergee() {
         setRes(result);
         setOutput(true);
       })
-      .catch((error) => {
-        console.log("error", error);
-        setError(error);
-      });
+      .catch((error) => console.log("error", error));
   };
 
   return (
     <div style={stylee}>
-      Select File for merging
+      Select Pdf to Delete Pages
       <input
         type="file"
         id="files"
@@ -93,25 +81,33 @@ function Mergee() {
           onChangeGetFilesSelected(e);
         }}
         accept=".pdf"
-        multiple={true}
+        multiple={false}
+        style={{ padding: "10px", margin: "10px" }}
       />
-      {err ? <div style={{ color: "Red"}}>"An Error Occured"</div> : null}
-      {file ? showFiles() : null}
-      {!output ? (
-      <button className="btn btn-primary" type="submit" onClick={uploadfiles}>
-        Submit
-      </button>) : null
-      }
-      {output && !err  ? (
-        <button type="button" className="btn btn-outline-primary" onClick={savee} >
-          
+      {output ? (
+        <button type="button" className="btn btn-outline-primary">
+          <a href={res} target="_blank" rel="noopener noreferrer">
             Download
-          
+          </a>
         </button>
       ) : null}
+      <div style={{ padding: "10px", margin: "10px" }}>
+        <label>Pages to Delete:</label>
+        <input
+          type="text"
+          value={pagesToDelete}
+          onChange={(e) => setPagesToDelete(e.target.value)}
+          style={{ margin : '10px' , color : '#fff' , backgroundColor : '#000' , border : '1px solid #fff'}}
+        />
+      </div>
+      {file ? showFiles() : null}
       {/* {output ? <Pdfview url={res} /> : null} */}
+      <button className="btn btn-primary" type="submit" onClick={uploadfiles}>
+        {" "}
+        Submit
+      </button>
     </div>
   );
 }
 
-export default Mergee;
+export default DeletePage;

@@ -1,40 +1,48 @@
 import React from "react";
 import { useState } from "react";
+// import { saveAs } from 'file-saver';
 // import Pdfview from "./Pdfview";
 
 function Extext() {
+  var FileSaver = require("file-saver");
   let stylee = {
-    fontFamily: "Marck Script",
+    // fontFamily: "Marck Script",
     fontSize: 30,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    padding : 20,
-    margin : 20
-  }
+    padding: 20,
+    // margin: 20,
+    height : "100vh",
+    justifyContent: "center",
+    color: "#fff",
+    backgroundColor: "#000",
+  };
+
   const [file, setFile] = useState(false);
   let url = "http://127.0.0.1:8000/file/read/";
   const [output, setOutput] = useState(false);
   const [res, setRes] = useState("");
+  const [err, setError] = useState("");
 
   let onChangeGetFilesSelected = (e) => {
     setFile(e.target.files);
   };
-  
+
   var f = [];
 
-
   let showFiles = () => {
-    f.push(<h1>Sequence</h1>)
+    f.push(<h1>Sequence</h1>);
     for (let i = 0; i < file.length; i++) {
-      f.push(<>
-      {i+1}. {file[i].name}
-      <br/>
-      </>)
+      f.push(
+        <>
+          {i + 1}. {file[i].name}
+          <br />
+        </>
+      );
     }
-  return f;
-  }
-  
+    return f;
+  };
 
   let uploadfiles = () => {
     var formData = new FormData();
@@ -53,18 +61,27 @@ function Extext() {
     };
 
     fetch(url, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        // console.log(response);
+        return response.json();
+      })
       .then((result) => {
+        setOutput(true);
         console.log(result);
         setRes(result);
-        setOutput(true);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        console.log("error", error);
+        setError(error);
+      });
+  };
+  let savee = () => {
+    FileSaver.saveAs(res, "Extracted.txt");
   };
 
   return (
-    <div style ={stylee}>
-        Select FILES to Extract text
+    <div style={stylee}>
+      Select FILES to Extract text
       <input
         type="file"
         id="files"
@@ -78,12 +95,20 @@ function Extext() {
         accept=".pdf"
         multiple={true}
       />
-      {output?<button type="button" className="btn btn-outline-primary"><a href={res} target="_blank" rel="noopener noreferrer">Download</a></button>:null}
-
-      {file? showFiles(): null}
-
-      <button className="btn btn-primary" type="submit"  onClick={uploadfiles}>Submit</button>
-      {/* {output ? <Pdfview url={res} /> : null} */}
+      {output && !err ? (
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={savee}
+        >
+          Download
+        </button>
+      ) : null}
+      {err ? <div style={{ color: "Red"}}>"An Error Occured"</div> : null}
+      {file ? showFiles() : null}
+      <button className="btn btn-primary" type="submit" onClick={uploadfiles}>
+        Submit
+      </button>
     </div>
   );
 }

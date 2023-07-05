@@ -1,17 +1,22 @@
 import React from "react";
 import { useState } from "react";
 // import Pdfview from "./Pdfview";
+import PreviewPdf from "./Preview";
 
 function Compress() {
   let stylee = {
-    fontFamily: "Marck Script",
+    // fontFamily: "Marck Script",
     fontSize: 30,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    padding : 20,
-    margin : 20
-  }
+    padding: 20,
+    // margin: 20,
+    height : "100vh",
+    justifyContent: "center",
+    color: "#fff",
+    backgroundColor: "#000",
+  };
   const [file, setFile] = useState(false);
   let url = "http://127.0.0.1:8000/file/reduce/";
   const [output, setOutput] = useState(false);
@@ -20,21 +25,22 @@ function Compress() {
   let onChangeGetFilesSelected = (e) => {
     setFile(e.target.files);
   };
-  
+
   var f = [];
 
-
   let showFiles = () => {
-    f.push(<h1>Sequence</h1>)
+    f.push(<h1>Sequence</h1>);
     for (let i = 0; i < file.length; i++) {
-      f.push(<>
-      {i+1}. {file[i].name}
-      <br/>
-      </>)
+      f.push(
+        <div key={i}>
+          {i + 1}. {file[i].name}
+          <br />
+        </div>
+      );
     }
-  return f;
-  }
-  
+    // f.push(<PreviewPdf file={file}/>)
+    return f;
+  };
 
   let uploadfiles = () => {
     var formData = new FormData();
@@ -63,8 +69,8 @@ function Compress() {
   };
 
   return (
-    <div style ={stylee}>
-        Select Files For Compressing
+    <div style={stylee}>
+      Select Files For Compressing
       <input
         type="file"
         id="files"
@@ -78,11 +84,19 @@ function Compress() {
         accept=".pdf"
         multiple={true}
       />
-      {output?<button type="button" className="btn btn-outline-primary"><a href={res} target="_blank" rel="noopener noreferrer">Download</a></button>:null}
+      {output ? (
+        <button type="button" className="btn btn-outline-primary">
+          <a href={res} target="_blank" rel="noopener noreferrer">
+            Download
+          </a>
+        </button>
+      ) : null}
 
-      {file? showFiles(): null}
+      {file ? showFiles() : null}
 
-      <button className="btn btn-primary" type="submit"  onClick={uploadfiles}>Submit</button>
+      <button className="btn btn-primary" type="submit" onClick={uploadfiles}>
+        Submit
+      </button>
       {/* {output ? <Pdfview url={res} /> : null} */}
     </div>
   );
