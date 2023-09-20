@@ -2,21 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Gridd() {
-  const containerStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    width: "auto",
-    backgroundColor: "#000",
-  };
-
-  const rowStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "20px",
-  };
 
   const buttonStyle = {
     height: "200px",
@@ -38,9 +23,9 @@ function Gridd() {
   };
 
   return (
-    <div style={containerStyle}>
-      <div>
-        <div style={rowStyle}>
+    <div className="container  bg-dark" >
+      <div className= "container " >
+        <div className="row">
           <Link className="col" style={buttonStyle} to="/merge">
             Merge
           </Link>
@@ -48,7 +33,7 @@ function Gridd() {
             Compress
           </Link>
         </div>
-        <div style={rowStyle}>
+        <div className="row" > 
           <Link className="col" style={buttonStyle} to="/ExtractText">
             Extract Text
           </Link>
@@ -56,9 +41,9 @@ function Gridd() {
             Extract Image
           </Link>
         </div>
-        <div>
+        <div className="row">
 
-        <Link className="col" style={buttonStyle} to="/DeletePages">
+          <Link className="col" style={buttonStyle} to="/DeletePages">
             Delete Pages
           </Link>
         </div>

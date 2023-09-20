@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 // import Pdfview from "./Pdfview";
-import PDFPreview from "./Preview";
+// import PDFPreview from "./Preview";
 
 function Mergee() {
   let stylee = {
@@ -103,13 +103,10 @@ function Mergee() {
       </button>) : null
       }
       {output && !err  ? (
-        <button type="button" className="btn btn-outline-primary" onClick={savee} >
-          
+        <button type="button" className="btn btn-outline-primary" onClick={savee} >       
             Download
-          
         </button>
       ) : null}
-      {/* {output ? <Pdfview url={res} /> : null} */}
     </div>
   );
 }
